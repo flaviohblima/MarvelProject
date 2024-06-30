@@ -1,0 +1,4 @@
+688  [restartedMain] INFO  b.c.marvel.Comics.ComicsApplication - Starting ComicsApplication using Java 11.0.23 on Nitro5 with PID 18612 (C:\Users\flavi\IdeaProjects\Comics\Comics\target\classes started by flavi in C:\Users\flavi\IdeaProjects\Comics)
+691  [restartedMain] DEBUG b.c.marvel.Comics.ComicsApplication - Running with Spring Boot v2.7.0, Spring v5.3.20
+691  [restartedMain] INFO  b.c.marvel.Comics.ComicsApplication - No active profile set, falling back to 1 default profile: "default"
+2762 [restartedMain] INFO  b.c.marvel.Comics.ComicsApplication - Started ComicsApplication in 2.427 seconds (JVM running for 2.96)
