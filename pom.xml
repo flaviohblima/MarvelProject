@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>br.com.marvel</groupId>
-    <artifactId>Comics</artifactId>
+    <artifactId>MarvelProject</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>Comics</name>
-    <description>Project to list Marvel Comics.</description>
+    <name>MarvelProject</name>
+    <description>Project to list Marvel awesome creations.</description>
     <url/>
     <licenses>
         <license/>

@@ -14,7 +14,7 @@
     </appender>
 
     <logger name="org.springframework" level="INFO"/>
-    <logger name="br.com.marvel.Comics" level="DEBUG">
+    <logger name="br.com.marvel" level="DEBUG">
         <appender-ref ref="FILE"/>
     </logger>
 
