@@ -37,7 +37,7 @@ public class MarvelClientImpl implements MarvelClient {
         return DigestUtils.md5DigestAsHex(password.getBytes());
     }
 
-    public br.com.marvel.comics.clients.DataDTO<ComicsDTO> listComics() {
+    public DataDTO<ComicsDTO> listComics() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
         String ts = formatter.format(new Date());
         String hash = createEncryptedHash(ts);
@@ -50,16 +50,20 @@ public class MarvelClientImpl implements MarvelClient {
                 "&hash=" + hash;
 
         log.debug(endpoint);
-        ParameterizedTypeReference<br.com.marvel.comics.clients.ResponseDTO<ComicsDTO>> responseType =
-                new ParameterizedTypeReference<br.com.marvel.comics.clients.ResponseDTO<ComicsDTO>>() {};
-        ResponseEntity<br.com.marvel.comics.clients.ResponseDTO<ComicsDTO>> response = restTemplate.exchange(
+        ParameterizedTypeReference<ResponseDTO<ComicsDTO>> responseType =
+                new ParameterizedTypeReference<>() {
+                };
+        ResponseEntity<ResponseDTO<ComicsDTO>> response = restTemplate.exchange(
                 endpoint,
                 HttpMethod.GET,
                 HttpEntity.EMPTY,
                 responseType
         );
 
-        br.com.marvel.comics.clients.ResponseDTO<ComicsDTO> responseDTO = response.getBody();
+        ResponseDTO<ComicsDTO> responseDTO = response.getBody();
+
+        if (responseDTO == null)
+            return null;
 
         return responseDTO.getData();
     }
