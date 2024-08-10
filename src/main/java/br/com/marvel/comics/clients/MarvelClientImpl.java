@@ -1,6 +1,7 @@
 package br.com.marvel.comics.clients;
 
 import br.com.marvel.comics.clients.dto.comics.ComicDataWrapper;
+import br.com.marvel.comics.clients.dto.series.SeriesDataWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpEntity;
@@ -36,6 +37,10 @@ public class MarvelClientImpl implements MarvelClient {
                 HttpEntity.EMPTY,
                 ComicDataWrapper.class
         ).getBody();
+    }
+
+    public SeriesDataWrapper listSeries() {
+        return new SeriesDataWrapper();
     }
 
     protected String buildGetComicsUrl() {
