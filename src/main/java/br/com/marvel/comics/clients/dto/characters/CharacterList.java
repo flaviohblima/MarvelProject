@@ -1,15 +1,15 @@
-package br.com.marvel.comics.clients.dto.comics;
+package br.com.marvel.comics.clients.dto.characters;
 
 import lombok.Data;
 
 import java.util.List;
 
 @Data
-public class EventList {
+public class CharacterList {
 
     private int available;
     private int returned;
     private String collectionURI;
-    private List<EventSummary> items;
+    private List<CharacterSummary> items;
 
 }

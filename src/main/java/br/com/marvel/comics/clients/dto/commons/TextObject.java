@@ -1,4 +1,4 @@
-package br.com.marvel.comics.clients.dto.comics;
+package br.com.marvel.comics.clients.dto.commons;
 
 import lombok.Data;
 
