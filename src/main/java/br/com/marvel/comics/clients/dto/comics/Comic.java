@@ -1,5 +1,6 @@
 package br.com.marvel.comics.clients.dto.comics;
 
+import br.com.marvel.comics.clients.dto.series.SeriesSummary;
 import lombok.Data;
 
 import java.time.ZonedDateTime;

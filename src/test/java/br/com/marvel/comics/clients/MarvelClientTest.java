@@ -1,6 +1,7 @@
 package br.com.marvel.comics.clients;
 
 import br.com.marvel.comics.clients.dto.comics.ComicDataWrapper;
+import br.com.marvel.comics.clients.dto.series.SeriesDataWrapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
@@ -28,7 +29,7 @@ class MarvelClientTest {
     @Test
     void listComics() {
         MarvelClientImpl client = spy(new MarvelClientImpl("publicKey", "privateKey", restTemplate));
-        when(client.buildGetComicsUrl()).thenReturn("mockedUrl");
+        when(client.buildGetUrl("comics")).thenReturn("mockedUrl");
 
         ComicDataWrapper expected = mock(ComicDataWrapper.class);
         ResponseEntity<ComicDataWrapper> expectedResponse = new ResponseEntity<>(expected, HttpStatus.OK);
@@ -41,19 +42,32 @@ class MarvelClientTest {
     }
 
     @Test
-    void buildGetComicsUrl() {
+    void listSeries() {
         MarvelClientImpl client = spy(new MarvelClientImpl("publicKey", "privateKey", restTemplate));
-        doReturn("timestamp").when(client).formatTimestamp(any(Date.class));
-        when(client.createEncryptedHash("timestamp")).thenReturn("someHash");
+        when(client.buildGetUrl("series")).thenReturn("mockedUrl");
 
-        String expected = "http://gateway.marvel.com/v1/public/comics?ts=timestamp&apikey=publicKey&hash=someHash";
-        String actual = client.buildGetComicsUrl();
+        SeriesDataWrapper expected = mock(SeriesDataWrapper.class);
+        ResponseEntity<SeriesDataWrapper> expectedResponse = new ResponseEntity<>(expected, HttpStatus.OK);
+        when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), eq(HttpEntity.EMPTY), eq(SeriesDataWrapper.class)))
+                .thenReturn(expectedResponse);
+
+        SeriesDataWrapper actual = client.listSeries();
 
         assertEquals(expected, actual);
     }
 
     @Test
-    void createTimestamp() throws ParseException {
+    void buildGetUrl() {
+        MarvelClientImpl client = spy(new MarvelClientImpl("publicKey", "privateKey", restTemplate));
+        when(client.getAuthParameters()).thenReturn("ts=timestamp&apikey=publicKey&hash=someHash");
+        String expected = "http://gateway.marvel.com/v1/public/comics?ts=timestamp&apikey=publicKey&hash=someHash";
+
+        String actual = client.buildGetUrl("comics");
+        assertEquals(expected, actual);
+    }
+
+    @Test
+    void formatTimestamp() throws ParseException {
         MarvelClientImpl client = spy(new MarvelClientImpl("publicKey", "privateKey", restTemplate));
 
         String expected = "2000-01-02_01-02-03";

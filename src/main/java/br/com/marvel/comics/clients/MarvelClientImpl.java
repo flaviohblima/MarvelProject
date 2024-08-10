@@ -20,6 +20,7 @@ public class MarvelClientImpl implements MarvelClient {
     private final String publicKey;
     private final String privateKey;
     private final RestTemplate restTemplate;
+    private final String marvelGateway = "http://gateway.marvel.com/v1/public";
 
     public MarvelClientImpl(@Value("${comics.public-key}") String publicKey,
                             @Value("${comics.private-key}") String privateKey,
@@ -30,24 +31,23 @@ public class MarvelClientImpl implements MarvelClient {
     }
 
     public ComicDataWrapper listComics() {
-        String url = buildGetComicsUrl();
-        return restTemplate.exchange(
-                url,
-                HttpMethod.GET,
-                HttpEntity.EMPTY,
-                ComicDataWrapper.class
-        ).getBody();
+        String url = buildGetUrl("comics");
+        return restTemplate.exchange(url, HttpMethod.GET, HttpEntity.EMPTY, ComicDataWrapper.class).getBody();
     }
 
     public SeriesDataWrapper listSeries() {
-        return new SeriesDataWrapper();
+        String url = buildGetUrl("series");
+        return restTemplate.exchange(url, HttpMethod.GET, HttpEntity.EMPTY, SeriesDataWrapper.class).getBody();
     }
 
-    protected String buildGetComicsUrl() {
+    protected String buildGetUrl(String endpoint) {
+        return marvelGateway + "/" + endpoint + "?" + getAuthParameters();
+    }
+
+    protected String getAuthParameters() {
         String ts = formatTimestamp(new Date());
         String hash = createEncryptedHash(ts);
-        String marvelGateway = "http://gateway.marvel.com/v1/public";
-        return marvelGateway + "/comics?ts=" + ts + "&apikey=" + publicKey + "&hash=" + hash;
+        return "ts=" + ts + "&apikey=" + publicKey + "&hash=" + hash;
     }
 
     protected String formatTimestamp(Date seedDate) {
