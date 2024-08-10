@@ -21,7 +21,7 @@ class MarvelClientTest {
         String privateKey = "abcd";
         String ts = "1";
 
-        MarvelClientImpl client = new MarvelClientImpl(publicKey, privateKey, restTemplate);
+        MarvelClientImpl client = new MarvelClientImpl(publicKey, privateKey);
 
         // act > chama o método
         String actual = client.createEncryptedHash(ts);

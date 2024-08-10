@@ -1,4 +1,3 @@
-
 package br.com.marvel.comics.clients.dto.comics;
 
 import lombok.Data;
@@ -6,11 +5,11 @@ import lombok.Data;
 import java.util.List;
 
 @Data
-public class Creators {
+public class EventList {
 
-    private Long available;
+    private int available;
+    private int returned;
     private String collectionURI;
-    private List<CreatorsItem> items;
-    private Long returned;
+    private List<EventSummary> items;
 
 }

@@ -3,9 +3,10 @@ package br.com.marvel.comics.clients.dto.comics;
 import lombok.Data;
 
 @Data
-public class Url {
+public class TextObject {
 
     String type;
-    String url;
+    String language;
+    String text;
 
 }

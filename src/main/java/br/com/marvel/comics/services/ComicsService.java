@@ -1,8 +1,7 @@
 package br.com.marvel.comics.services;
 
-import br.com.marvel.comics.clients.DataDTO;
 import br.com.marvel.comics.clients.MarvelClient;
-import br.com.marvel.comics.clients.dto.comics.ComicsDTO;
+import br.com.marvel.comics.clients.dto.comics.ComicDataWrapper;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,7 +13,7 @@ public class ComicsService {
         this.client = client;
     }
 
-    public DataDTO<ComicsDTO> listComics() {
+    public ComicDataWrapper listComics() {
         return client.listComics();
     }
 

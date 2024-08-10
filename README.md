@@ -11,7 +11,6 @@ and try to create different approaches to write a Java+Spring project.
 Below there is a list of **branches** that I want to provide at the end of the project:
 
 + [ ] ***package-by-layer***: Common layered organization of packages with **controllers**, **services**, **repositories** and/or **clients** packages.
-+ [ ] ***package-by-layer-clean-code***: Same as the above, but with clean code applied (I am still reading the book).
 + [ ] ***clean-architecture***: Packages split between the **application** core business, the **domain** entities and **infra** resources.
 
 ## The challenge

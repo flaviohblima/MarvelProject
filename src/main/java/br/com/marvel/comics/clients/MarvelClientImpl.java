@@ -1,9 +1,8 @@
 package br.com.marvel.comics.clients;
 
-import br.com.marvel.comics.clients.dto.comics.ComicsDTO;
+import br.com.marvel.comics.clients.dto.comics.ComicDataWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -21,23 +20,16 @@ public class MarvelClientImpl implements MarvelClient {
     private final String publicKey;
     private final String privateKey;
     private final RestTemplate restTemplate;
-
-    public MarvelClientImpl(@Value("${comics.public-key}") String publicKey,
-                            @Value("${comics.private-key}") String privateKey,
-                            RestTemplate restTemplate) {
-        this.publicKey = publicKey;
-        this.privateKey = privateKey;
-        this.restTemplate = restTemplate;
-    }
-
     private String marvelGateway = "http://gateway.marvel.com/v1/public";
 
-    protected String createEncryptedHash(String ts) {
-        String password = ts + privateKey + publicKey;
-        return DigestUtils.md5DigestAsHex(password.getBytes());
+    public MarvelClientImpl(@Value("${comics.public-key}") String publicKey,
+                            @Value("${comics.private-key}") String privateKey) {
+        this.publicKey = publicKey;
+        this.privateKey = privateKey;
+        this.restTemplate = new RestTemplate();
     }
 
-    public DataDTO<ComicsDTO> listComics() {
+    public ComicDataWrapper listComics() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss");
         String ts = formatter.format(new Date());
         String hash = createEncryptedHash(ts);
@@ -49,24 +41,19 @@ public class MarvelClientImpl implements MarvelClient {
                 "&apikey=" + publicKey +
                 "&hash=" + hash;
 
-        log.debug(endpoint);
-        ParameterizedTypeReference<ResponseDTO<ComicsDTO>> responseType =
-                new ParameterizedTypeReference<>() {
-                };
-        ResponseEntity<ResponseDTO<ComicsDTO>> response = restTemplate.exchange(
+        ResponseEntity<ComicDataWrapper> response = restTemplate.exchange(
                 endpoint,
                 HttpMethod.GET,
                 HttpEntity.EMPTY,
-                responseType
+                ComicDataWrapper.class
         );
 
-        ResponseDTO<ComicsDTO> responseDTO = response.getBody();
-
-        if (responseDTO == null)
-            return null;
-
-        return responseDTO.getData();
+        return response.getBody();
     }
 
+    protected String createEncryptedHash(String ts) {
+        String password = ts + privateKey + publicKey;
+        return DigestUtils.md5DigestAsHex(password.getBytes());
+    }
 
 }

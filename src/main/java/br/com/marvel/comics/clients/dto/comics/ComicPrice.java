@@ -1,12 +1,11 @@
-
 package br.com.marvel.comics.clients.dto.comics;
 
 import lombok.Data;
 
 @Data
-public class Thumbnail {
+public class ComicPrice {
 
-    private String path;
-    private String extension;
+    private String type;
+    private float price;
 
 }

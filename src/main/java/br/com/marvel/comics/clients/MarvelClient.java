@@ -1,9 +1,9 @@
 package br.com.marvel.comics.clients;
 
-import br.com.marvel.comics.clients.dto.comics.ComicsDTO;
+import br.com.marvel.comics.clients.dto.comics.ComicDataWrapper;
 
 public interface MarvelClient {
 
-    DataDTO<ComicsDTO> listComics();
+    ComicDataWrapper listComics();
 
 }
