@@ -1,10 +1,11 @@
 package br.com.marvel.comics.clients;
 
+import br.com.marvel.comics.clients.dto.characters.CharacterDataWrapper;
 import br.com.marvel.comics.clients.dto.comics.ComicDataWrapper;
 import br.com.marvel.comics.clients.dto.series.SeriesDataWrapper;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -23,36 +24,48 @@ import static org.mockito.Mockito.*;
 @ExtendWith(MockitoExtension.class)
 class MarvelClientTest {
 
-    @Mock
-    private RestTemplate restTemplate;
+    private static RestTemplate restTemplate;
+    private static MarvelClientImpl client;
+
+    @BeforeAll
+    static void setup() {
+        restTemplate = mock(RestTemplate.class);
+        client = spy(new MarvelClientImpl("publicKey", "privateKey", restTemplate));
+    }
 
     @Test
     void listComics() {
-        MarvelClientImpl client = spy(new MarvelClientImpl("publicKey", "privateKey", restTemplate));
-        when(client.buildGetUrl("comics")).thenReturn("mockedUrl");
-
         ComicDataWrapper expected = mock(ComicDataWrapper.class);
         ResponseEntity<ComicDataWrapper> expectedResponse = new ResponseEntity<>(expected, HttpStatus.OK);
+        when(client.buildGetUrl("comics")).thenReturn("mockedUrl");
         when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), eq(HttpEntity.EMPTY), eq(ComicDataWrapper.class)))
                 .thenReturn(expectedResponse);
 
         ComicDataWrapper actual = client.listComics();
-
         assertEquals(expected, actual);
     }
 
     @Test
     void listSeries() {
-        MarvelClientImpl client = spy(new MarvelClientImpl("publicKey", "privateKey", restTemplate));
-        when(client.buildGetUrl("series")).thenReturn("mockedUrl");
-
         SeriesDataWrapper expected = mock(SeriesDataWrapper.class);
         ResponseEntity<SeriesDataWrapper> expectedResponse = new ResponseEntity<>(expected, HttpStatus.OK);
+        when(client.buildGetUrl("series")).thenReturn("mockedUrl");
         when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), eq(HttpEntity.EMPTY), eq(SeriesDataWrapper.class)))
                 .thenReturn(expectedResponse);
 
         SeriesDataWrapper actual = client.listSeries();
+        assertEquals(expected, actual);
+    }
 
+    @Test
+    void listHeroes() {
+        CharacterDataWrapper expected = mock(CharacterDataWrapper.class);
+        ResponseEntity<CharacterDataWrapper> expectedResponse = new ResponseEntity<>(expected, HttpStatus.OK);
+        when(client.buildGetUrl("characters")).thenReturn("mockedUrl");
+        when(restTemplate.exchange(anyString(), eq(HttpMethod.GET), eq(HttpEntity.EMPTY), eq(CharacterDataWrapper.class)))
+                .thenReturn(expectedResponse);
+
+        CharacterDataWrapper actual = client.listHeroes();
         assertEquals(expected, actual);
     }
 

@@ -1,7 +1,7 @@
 package br.com.marvel.comics.services;
 
 import br.com.marvel.comics.clients.MarvelClient;
-import br.com.marvel.comics.clients.dto.comics.ComicDataWrapper;
+import br.com.marvel.comics.clients.dto.characters.CharacterDataWrapper;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -12,19 +12,19 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-class ComicsServiceTest {
+class HeroesServiceTest {
 
     @InjectMocks
-    private ComicsService service;
+    private HeroesService service;
 
     @Mock
     private MarvelClient client;
 
     @Test
-    void listComics() {
-        ComicDataWrapper expected = new ComicDataWrapper();
-        when(client.listComics()).thenReturn(expected);
-        ComicDataWrapper actual = service.listComics();
+    void listHeroes() {
+        CharacterDataWrapper expected = new CharacterDataWrapper();
+        when(client.listHeroes()).thenReturn(expected);
+        CharacterDataWrapper actual = service.listHeroes();
         assertEquals(expected, actual);
     }
 

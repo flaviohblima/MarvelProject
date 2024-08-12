@@ -1,5 +1,6 @@
 package br.com.marvel.comics.clients;
 
+import br.com.marvel.comics.clients.dto.characters.CharacterDataWrapper;
 import br.com.marvel.comics.clients.dto.comics.ComicDataWrapper;
 import br.com.marvel.comics.clients.dto.series.SeriesDataWrapper;
 import lombok.extern.slf4j.Slf4j;
@@ -20,7 +21,6 @@ public class MarvelClientImpl implements MarvelClient {
     private final String publicKey;
     private final String privateKey;
     private final RestTemplate restTemplate;
-    private final String marvelGateway = "http://gateway.marvel.com/v1/public";
 
     public MarvelClientImpl(@Value("${comics.public-key}") String publicKey,
                             @Value("${comics.private-key}") String privateKey,
@@ -40,7 +40,13 @@ public class MarvelClientImpl implements MarvelClient {
         return restTemplate.exchange(url, HttpMethod.GET, HttpEntity.EMPTY, SeriesDataWrapper.class).getBody();
     }
 
+    public CharacterDataWrapper listHeroes() {
+        String url = buildGetUrl("characters");
+        return restTemplate.exchange(url, HttpMethod.GET, HttpEntity.EMPTY, CharacterDataWrapper.class).getBody();
+    }
+
     protected String buildGetUrl(String endpoint) {
+        String marvelGateway = "http://gateway.marvel.com/v1/public";
         return marvelGateway + "/" + endpoint + "?" + getAuthParameters();
     }
 

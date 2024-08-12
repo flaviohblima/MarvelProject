@@ -10,7 +10,7 @@
    + List series by name (it must offer a way to order alphabetically and paginate the results)
    + Filter the lists above by super-heroes
 4. Your service must consume the Marvel API, and not just call it
-5. Add swagger
+5. Add swagger documentation
 6. Consume the Public and Private keys from the api
 7. Paginate all requests
 8. Order alphabetically
